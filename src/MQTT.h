@@ -14,6 +14,7 @@
 
 #include <map>
 #include <vector>
+#include <FLASH.h>
 
 /**
  * @brief MQTT Lib
@@ -31,6 +32,8 @@ class MQTT
 
 /** Overloads for config */
 extern bool CSV;
+extern uint64_t sleep_time;
+extern FLASH flash_lib;
 
 void flash_32(const char* key, int32_t value, bool restart);
 void flash_32u(const char* key, uint32_t value, bool restart);

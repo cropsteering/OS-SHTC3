@@ -35,7 +35,7 @@ void FLASH::flash_setup()
  * @param value uint32_t
  * @param flag unused
  */
-void flash_32(const char* key, int32_t value, bool flag)
+void FLASH::flash_32(const char* key, int32_t value, bool flag)
 {
   flash_storage.putInt(key, value);
   FLASH_LOG("FLASH", "Write: " + String(key) + "/" + String(value));
@@ -48,7 +48,7 @@ void flash_32(const char* key, int32_t value, bool flag)
  * @param value uint32_t
  * @param flag unused
  */
-void flash_32u(const char* key, uint32_t value, bool flag)
+void FLASH::flash_32u(const char* key, uint32_t value, bool flag)
 {
   flash_storage.putUInt(key, value);
   FLASH_LOG("FLASH", "Write: " + String(key) + "/" + String(value));
@@ -61,7 +61,7 @@ void flash_32u(const char* key, uint32_t value, bool flag)
  * @param value uint64_t
  * @param flag unused
  */
-void flash_64u(const char* key, uint64_t value, bool flag)
+void FLASH::flash_64u(const char* key, uint64_t value, bool flag)
 {
   flash_storage.putULong64(key, value);
   FLASH_LOG("FLASH", "Write: " + String(key) + "/" + String(value));
@@ -74,7 +74,7 @@ void flash_64u(const char* key, uint64_t value, bool flag)
  * @param value bool
  * @param flag unused
  */
-void flash_bool(const char* key, bool value, bool flag)
+void FLASH::flash_bool(const char* key, bool value, bool flag)
 {
   flash_storage.putBool(key, value);
   FLASH_LOG("FLASH", "Write: " + String(key) + "/" + String(value));
@@ -87,10 +87,22 @@ void flash_bool(const char* key, bool value, bool flag)
  * @param value bool
  * @param flag unused
  */
-void flash_bytes(const char* key, uint8_t value[8], bool flag)
+void FLASH::flash_bytes(const char* key, uint8_t value[8], bool flag)
 {
   flash_storage.putBytes(key, value, 8);
   FLASH_LOG("FLASH", "Write: " + String(key));
+}
+
+/**
+ * @brief Get flash value in unit64_t
+ * 
+ * @param key Key to get
+ * @param def Default value if doesn't exist
+ * @return uint64_t 
+ */
+uint64_t FLASH::get_64u(const char* key, uint64_t def)
+{
+  return flash_storage.getULong64(key, def);
 }
 
 /**
@@ -98,7 +110,7 @@ void flash_bytes(const char* key, uint8_t value[8], bool flag)
  * 
  * @param key to delete
  */
-void delete_key(String key)
+void FLASH::delete_key(String key)
 {
   flash_storage.remove(key.c_str());
   FLASH_LOG("FLASH", "Delete: " + String(key));

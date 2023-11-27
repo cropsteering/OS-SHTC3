@@ -248,8 +248,10 @@ void parse_config(String data)
     uint16_t cmd_int = stoi(seglist[0]);
     switch(cmd_int)
     {
+    /** CMD 0: Sleep time (seconds) */
     case 0:
-
+        sleep_time = stoi(seglist[1])*1000000;
+        flash_lib.flash_64u("stime", sleep_time, false);
     break;
     }
 }

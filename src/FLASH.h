@@ -28,12 +28,8 @@ class FLASH
     void flash_64u(const char* key, uint64_t value, bool restart);
     void flash_bool(const char* key, bool value, bool restart);
     void flash_bytes(const char* key, uint8_t value[8], bool restart);
+    uint64_t get_64u(const char* key, uint64_t def);
     void delete_key(String key);
-
-    const char* MQTT_ID;
 };
-
-/** Overloads for config */
-extern bool CSV;
 
 #endif
