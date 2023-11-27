@@ -18,6 +18,9 @@ Preferences flash_storage;
 /** Turn on/off MQTT debug output*/
 #define FLASH_DEBUG 1
 
+/** Forward declatration */
+void FLASH_LOG(String chan, String data);
+
 void FLASH::flash_setup()
 {
   /** Initialize flash storage */
