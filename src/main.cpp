@@ -26,6 +26,10 @@ uint64_t sleep_time;
 void load_flash();
 void R_LOG(String chan, String data);
 
+/**
+ * @brief Main firmware setup
+ * 
+ */
 void setup() 
 {
     /** Setup WisBlock pins/io slots and serial */
@@ -53,6 +57,10 @@ void setup()
     load_flash();
 }
 
+/**
+ * @brief Main firmware loop
+ * 
+ */
 void loop() 
 {
     /** Loop our MQTT lib */
