@@ -12,6 +12,9 @@
 #include <Arduino.h>
 #include <MQTT.h>
 #include <FLASH.h>
+/** SHTC3 */
+#include <SparkFun_SHTC3.h>
+#include <Wire.h>
 
 /** MQTT Lib */
 MQTT mqtt_lib;
@@ -21,10 +24,14 @@ FLASH flash_lib;
 uint64_t sleep_time;
 /** Turn on/off debug output */
 #define DEBUG 1
+/** SHTC3 */
+SHTC3 shtc3;
 
 /** Forward declatration */
 void load_flash();
 void R_LOG(String chan, String data);
+/** SHTC3 */
+void check_shtc3();
 
 /**
  * @brief Main firmware setup
@@ -55,6 +62,17 @@ void setup()
     flash_lib.flash_setup();
     /** Load settings from flash */
     load_flash();
+
+    /** SHTC3 */
+    Wire.begin();
+    delay(500);
+    if(shtc3.begin() == SHTC3_Status_Nominal)
+    {
+        R_LOG("SHTC3", "Found");
+    } else {
+        R_LOG("SHTC3", "Not found");
+    }
+    Wire.setClock(400000);
 }
 
 /**
@@ -70,6 +88,23 @@ void loop()
     if ((micros() - last_sch) >= sleep_time)
     {
         last_sch = micros();
+        check_shtc3();
+    }
+}
+
+/**
+ * @brief Check for SHTC3 readings and send via MQTT
+ * 
+ */
+void check_shtc3()
+{
+    String data;
+    shtc3.update();
+    if(shtc3.lastStatus == SHTC3_Status_Nominal)
+    {
+        data = String(shtc3.toDegC()) + "+" + String(shtc3.toPercent());
+        R_LOG("SHTC3", data);
+        mqtt_lib.mqtt_publish("shtc1", data);
     }
 }
 
