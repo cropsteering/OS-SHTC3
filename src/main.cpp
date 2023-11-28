@@ -79,7 +79,7 @@ void loop()
  */
 void load_flash()
 {
-    sleep_time = flash_lib.get_64u("stime", 2000000);
+    sleep_time = flash_lib.get_64u("stime", 15000000);
     R_LOG("FLASH", "Read: Sleep time " + String(sleep_time));
 }
 
