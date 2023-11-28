@@ -104,7 +104,7 @@ void check_shtc3()
     {
         data = String(shtc3.toDegC()) + "+" + String(shtc3.toPercent());
         R_LOG("SHTC3", data);
-        mqtt_lib.mqtt_publish(mqtt_lib.MQTT_ID, data);
+        mqtt_lib.mqtt_publish(MQTT_ID, data);
     }
 }
 
