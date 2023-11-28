@@ -88,6 +88,7 @@ void loop()
     if ((micros() - last_sch) >= sleep_time)
     {
         last_sch = micros();
+        /** SHTC3 */
         check_shtc3();
     }
 }
