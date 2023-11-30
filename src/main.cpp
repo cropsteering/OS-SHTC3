@@ -64,17 +64,17 @@ void setup()
     load_flash();
 
     /** SHTC3 */
-  Wire.begin();
-  SHTC3_Status_TypeDef shtc3_status = shtc3.begin();
-  if(shtc3_status == SHTC3_Status_Nominal)
-  {
-    Wire.setClock(400000);
-    shtc3.setMode(SHTC3_CMD_CSD_TF_NPM);
-    shtc3.sleep();
-    R_LOG("SHTC3", "Found");
-  } else {
-    R_LOG("SHTC3", "Not found");
-  }
+    Wire.begin();
+    SHTC3_Status_TypeDef shtc3_status = shtc3.begin();
+    if(shtc3_status == SHTC3_Status_Nominal)
+    {
+        Wire.setClock(400000);
+        shtc3.setMode(SHTC3_CMD_CSD_TF_NPM);
+        shtc3.sleep();
+        R_LOG("SHTC3", "Found");
+    } else {
+        R_LOG("SHTC3", "Not found");
+    }
 }
 
 /**
