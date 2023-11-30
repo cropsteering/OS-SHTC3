@@ -64,15 +64,17 @@ void setup()
     load_flash();
 
     /** SHTC3 */
-    Wire.begin();
-    delay(500);
-    if(shtc3.begin() == SHTC3_Status_Nominal)
-    {
-        R_LOG("SHTC3", "Found");
-    } else {
-        R_LOG("SHTC3", "Not found");
-    }
+  Wire.begin();
+  SHTC3_Status_TypeDef shtc3_status = shtc3.begin();
+  if(shtc3_status == SHTC3_Status_Nominal)
+  {
     Wire.setClock(400000);
+    shtc3.setMode(SHTC3_CMD_CSD_TF_NPM);
+    shtc3.sleep();
+    R_LOG("SHTC3", "Found");
+  } else {
+    R_LOG("SHTC3", "Not found");
+  }
 }
 
 /**
@@ -100,12 +102,19 @@ void loop()
 void check_shtc3()
 {
     String data;
+    R_LOG("SHTC3", "Reading");
+    shtc3.wake();
     shtc3.update();
-    if(shtc3.lastStatus == SHTC3_Status_Nominal)
+    shtc3.sleep();
+
+    if(shtc3.passIDcrc) 
     {
-        data = String(shtc3.toDegC()) + "+" + String(shtc3.toPercent());
+        /** -2 Adjustment for MCU/Board heat */
+        data = String(shtc3.toDegC()-2) + "+" + String(shtc3.toPercent()-2);
         R_LOG("SHTC3", data);
         mqtt_lib.mqtt_publish(MQTT_ID, data);
+    } else {
+        R_LOG("SHTC3", "Failed checksum");
     }
 }
 
